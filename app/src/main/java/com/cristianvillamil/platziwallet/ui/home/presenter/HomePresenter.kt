@@ -1,5 +1,7 @@
 package com.cristianvillamil.platziwallet.ui.home.presenter
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.cristianvillamil.platziwallet.UserSingleton
 import com.cristianvillamil.platziwallet.ui.home.FavoriteTransfer
 import com.cristianvillamil.platziwallet.ui.home.HomeContract
@@ -9,6 +11,8 @@ import com.cristianvillamil.platziwallet.ui.home.data.User
 class HomePresenter(private val view : HomeContract.View) : HomeContract.Presenter {
 
     private val homeInteractor : HomeInteractor = HomeInteractor()
+    //live data va a cambiar en tiempo de ejecucion
+    private val percentageliveData : MutableLiveData<String> = MutableLiveData()
 
     override fun retrieveFavoriteTransfers(){
         view.showLoader()
@@ -30,9 +34,18 @@ class HomePresenter(private val view : HomeContract.View) : HomeContract.Present
                     .setUserName("Sarahi")
                     .setPassword("4sgd561gd")
                     .build()
+                //mutable live data nos permite cambiar el valor del objeto
+                percentageliveData.value = "40%"
                 view.hideLoader()
                 view.showFavoriteTransfers(favoriteList)
             }
         })
     }
+    //al solicitarle al presentador el mutable live data
+    //le tenemos que dar un live data que no sea mutable
+    //encapsulamiento
+    //garantia de que cuadno se lo solicitemos al presentador
+    //nosotros vamos a recibir una instancia de LiveData
+    override fun getPercentageLiveData() : LiveData<String> = percentageliveData
+
 }

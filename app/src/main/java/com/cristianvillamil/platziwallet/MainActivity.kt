@@ -7,6 +7,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.cristianvillamil.platziwallet.ui.commands.FileCommandsManager
+import com.cristianvillamil.platziwallet.ui.commands.ReadCommand
+import com.cristianvillamil.platziwallet.ui.commands.SaveCommand
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,5 +20,24 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment)
         navView.setupWithNavController(navController)
+
+        //podemos agregar y solicitar nuestros comandos
+        val commandsManager = FileCommandsManager()
+        val saveCommand = SaveCommand()
+        //agregando comandos
+        commandsManager.putCommand("SaveCommand",saveCommand)
+        commandsManager.putCommand("ReadCommand", ReadCommand())
+
+        commandsManager
+            .getCommand("SaveCommand")
+            .execute(this, "exampleFile",
+                "Hola mundo",
+                "platziWallet")
+
+
+        commandsManager
+            .getCommand("ReadCommand")
+            .execute(this, "exampleFile")
+
     }
 }

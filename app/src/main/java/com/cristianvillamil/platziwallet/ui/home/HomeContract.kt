@@ -1,5 +1,7 @@
 package com.cristianvillamil.platziwallet.ui.home
 
+import androidx.lifecycle.LiveData
+
 interface HomeContract {
 
     interface View{
@@ -12,10 +14,12 @@ interface HomeContract {
 
     interface Presenter{
         fun retrieveFavoriteTransfers()
+        fun getPercentageLiveData() : LiveData<String>
 
     }
     //callback que devuelve los datos que estan entre el presentaodr y la capa de datos
     interface OnResponseCallback{
         fun onResponse(favoriteList: List<FavoriteTransfer>)
     }
+
 }
